@@ -7,7 +7,7 @@ config = {
     'name': 'event_manager',
     'version': '0.1',
     'packages': ['event_manager'],
-    'install_requires': ['sys', 'numpy', 'matplotlib', 'nose'],
+    'install_requires': ['numpy', 'matplotlib', 'nose'],
     'author': 'Evan M. Davis',
     'author_email': 'emd@mit.edu',
     'url': '',
