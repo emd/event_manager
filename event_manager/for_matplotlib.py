@@ -1,5 +1,5 @@
-'''This module implements a class for extracting data from
-matplotlib figures.
+'''This module implements classes for matplotlib figure data extraction
+and window management.
 
 '''
 
@@ -50,6 +50,26 @@ class KeyHandler(object):
 
         else:
             print 'Key `' + key + '` has already been used.'
+
+
+class FigureList(object):
+    'Class for maintaining a list of active figures.'
+    def __init__(self):
+        self.getFigNums()
+
+    def getFigNums(self):
+        self.in_use = plt.get_fignums()
+        return self.in_use[:]
+
+    def getNext(self):
+        'Obtain next largest unused figure number.'
+        # Ensure figure list is up to date
+        self.getFigNums()
+
+        if len(self.in_use) > 0:
+            return np.max(self.in_use) + 1
+        else:
+            return 0
 
 
 def example():

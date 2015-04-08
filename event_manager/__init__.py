@@ -1,1 +1,1 @@
-from .for_matplotlib import KeyHandler
+from .for_matplotlib import KeyHandler, FigureList
