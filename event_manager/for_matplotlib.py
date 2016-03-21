@@ -17,6 +17,9 @@ class KeyHandler(object):
         self.fig = fig
         self.data = {}
         self.event_key = str.lower(event_key)
+        self.extraction_procedure = (
+            'position mouse over desired data point and '
+            'press `%s` to extract (x, y)' % self.event_key)
 
     def append(self, key, prompt=None):
         'Add data point to `self.data`:dict with `key`:str'
@@ -27,12 +30,22 @@ class KeyHandler(object):
         def on_key_press(event):
             'Get (x, y) coordinates of mouse when `event_key` is pressed.'
             sys.stdout.flush()
+
+            # Different matplotlib interactive backends return `event.key`
+            # as either a unicode or string type
+            if type(event.key) is unicode:
+                event.key = str(event.key)
+            elif type(event.key) is not str:
+                raise TypeError('`event.key` must be string or unicode')
+
+            # Extract data
             if str.lower(event.key) == self.event_key:
                 self.data[key] = event.xdata, event.ydata
-                print '(x, y) = ' + str(self.data[key])
+                print '\n(x, y) = ' + str(self.data[key])
+                print ('\nTo accept above (x, y), pres `Return` in console;\n'
+                       'otherwise, %s' % self.extraction_procedure)
             else:
-                print ('Position mouse over desired data point and '
-                       'press `' + self.event_key + '` to extract.')
+                print ('(%s)' % self.extraction_procedure)
 
         # Ensure key is not already taken
         if key not in self.data.keys():
@@ -44,7 +57,8 @@ class KeyHandler(object):
             # Construct and print prompt
             if prompt is None:
                 prompt = 'Select data: '
-            raw_input(prompt + ' (Press `Return` to continue):\n')
+            # raw_input(prompt + ' (Press `Return` to continue):\n')
+            raw_input('%s\n(%s)\n' % (prompt, self.extraction_procedure))
 
             self.fig.canvas.mpl_disconnect(cid)
 
