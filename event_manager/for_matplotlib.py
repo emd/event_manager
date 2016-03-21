@@ -42,7 +42,7 @@ class KeyHandler(object):
             if str.lower(event.key) == self.event_key:
                 self.data[key] = event.xdata, event.ydata
                 print '\n(x, y) = ' + str(self.data[key])
-                print ('\nTo accept above (x, y), pres `Return` in console;\n'
+                print ('\nTo accept above (x, y), press `Return` in console;\n'
                        'otherwise, %s' % self.extraction_procedure)
             else:
                 print ('(%s)' % self.extraction_procedure)
@@ -57,7 +57,6 @@ class KeyHandler(object):
             # Construct and print prompt
             if prompt is None:
                 prompt = 'Select data: '
-            # raw_input(prompt + ' (Press `Return` to continue):\n')
             raw_input('%s\n(%s)\n' % (prompt, self.extraction_procedure))
 
             self.fig.canvas.mpl_disconnect(cid)
